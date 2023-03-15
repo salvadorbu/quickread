@@ -1,4 +1,4 @@
-# quickread: Fast multithreaded searcher for large files
+# quickread: Fast multithreaded file search for large files
 
 Usage:
 ```console
