@@ -27,11 +27,9 @@ void* search(void* base)
 
 void search_multithread(search_base* sb, int thread_count)
 {
-	int target_length = strlen(sb->target);
 	int buffer_length = (sb->buffer / thread_count);
 	pthread_t threads[thread_count];
 	DoublyLinkedList* result_lists[thread_count];
-	int thread_ids[thread_count];
 	
 	for (int i = 0; i < thread_count; i++)
 	{
