@@ -43,7 +43,7 @@ void print_region_list(char* in, int radius, int size, Node* head)
 	while (curr != NULL)
 	{
 		printf("Result (%d)\n", index);
-		print_region(in, curr->data, 200, size);
+		print_region(in, curr->data, radius, size);
 		index++;
 		curr = curr->next;
 	}
