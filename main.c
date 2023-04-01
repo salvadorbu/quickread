@@ -18,7 +18,7 @@ int main(int argc, char* argv[])
 {
 	if (argc < 5 || argc > 7 || argc % 2 == 0)
 	{
-		printf("Invalid Usage\n");
+		printf("Usage: %s -f <file.ext> -s <search term> | OPTIONAL -t <thread count>\n", argv[0]);
 		exit(EXIT_FAILURE);
 	}
 
