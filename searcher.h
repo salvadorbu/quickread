@@ -1,4 +1,4 @@
-#include "helper.h"
+#include "term_ui.h"
 
 typedef struct search_base
 {

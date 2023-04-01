@@ -63,8 +63,9 @@ int main(int argc, char* argv[])
 	base->buffer = sb.st_size;
 	
 	search_multithread(base, thread_num);
-	
-	print_region_list(buff, 200, sb.st_size, base->result_list->head);
+
+	initialize_ui(buff, *(base->result_list), sb.st_size);
+
 	destroy_doubly_linked_list(base->result_list);
 	free(base);
 	munmap(buff, sb.st_size);
