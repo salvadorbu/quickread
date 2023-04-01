@@ -6,5 +6,5 @@ Usage:
 ```
 
 Reads memory-mapped pointer with multiple threads to search for term. The addresses
-for found terms are stored in a doubly linked list. The text surrounding the term
-address is then printed to the console for each entry.
+for found terms are stored in a doubly linked list. The output from the list is printed
+to a terminal UI where the user can navigaye through the search results.
