@@ -1,26 +1,48 @@
 #include "term_ui.h"
 #include <curses.h>
 
-int calculate_radius(char* base, int size, char* offset_in, int cl, int rl)
+void print_entry(WINDOW* win, char* base, int size, char* offset_in, int cl, int rl, int query_len)
 {
-    int mrad = (cl * rl) / 2;
-    int lnc = 0, rnc = 0;
-    for (int cc = 0; cc < mrad; cc++)
+    int cx = 0;
+    int offset = -50;
+    
+    init_pair(0, COLOR_WHITE, COLOR_BLACK);
+    init_pair(1, COLOR_BLACK, COLOR_WHITE);
+
+    for (int row = 0; row < rl + 1; row++)
     {
-        if (offset_in - cc < base || offset_in + cc >= base + size) return cc;
-        if (lnc >= rl / 2 || rnc >= rl / 2) return cc;
-        char cl = *(offset_in - cc), cr = *(offset_in + cc);
-        if (cl == '\n') lnc++;
-        if (cr == '\n') rnc++;
+        while (cx < cl)
+        {
+            if (offset_in + offset >= base + size)
+            {
+                mvwprintw(win, row, cx, " ");
+                cx++;
+                continue;
+            }
+            if (offset_in + offset >= offset_in && offset_in + offset < offset_in + query_len)
+                wattron(win, COLOR_PAIR(1));
+            else
+                wattroff(win, COLOR_PAIR(1));
+            char curr = *(offset_in + offset);
+            if (curr == '\n')
+            {
+                cx = 0;
+                row++;
+            }
+            mvwprintw(win, row, cx, "%c", curr);
+            offset++;
+            cx++;
+        }
+        cx = 1;
     }
-    return mrad;
 }
 
-void initialize_ui(char* base, DoublyLinkedList results, int size)
+void initialize_ui(char* base, DoublyLinkedList results, int size, int query_len)
 {
     initscr();
     noecho();
     curs_set(0);
+    start_color();
     int yMax, xMax;
     getmaxyx(stdscr, yMax, xMax);
 
@@ -30,8 +52,8 @@ void initialize_ui(char* base, DoublyLinkedList results, int size)
     WINDOW* top_win = newwin(yMax / 4, xMax - ART_LEN, 0, (xMax - ART_LEN) / 2);
     WINDOW* text_win = newwin(yMax / 2, xMax / 2, yMax / 4, xMax / 4);
     WINDOW* bottom_win = newwin(yMax / 4, xMax / 2, yMax - yMax / 4, xMax / 4);
-    box(text_win, 0, 0); 
-    
+    box(text_win, 0, 0);
+
     mvwprintw(text_win, 1, 1, "Enter text...");
 
     mvwprintw(top_win, 1, 1, "________        .__        __     __________                   .___");
@@ -47,7 +69,6 @@ void initialize_ui(char* base, DoublyLinkedList results, int size)
 
     Node* curr = results.head;
     wrefresh(text_win);
-
     char ch;
     while ((ch = wgetch(top_win)))
     {
@@ -59,23 +80,11 @@ void initialize_ui(char* base, DoublyLinkedList results, int size)
             case 'n':
                 curr = curr->next;
                 if (curr == NULL) curr = results.head;
-                char test[100] = "\0";
-                char* temp = curr->data;
-                int i = 0;
-                while (*temp != '\n') {
-                    test[i] = *temp;
-                    i++;
-                    temp++;
-                }
-                base = base;
-                size = size;
-                mvwprintw(text_win, 1, 1, "%s", test);
+                print_entry(text_win, base, size, curr->data, text_area_width, text_area_height, query_len);
                 break;
             case 'p':
                 curr = curr->prev;
                 if (curr == NULL) curr = results.tail;
-                mvwprintw(text_win, 1, 1, "__RADIUS: %d__", 
-                          calculate_radius(base, size, curr->data, text_area_width, text_area_height));
                 break;
         }
         wrefresh(text_win);
