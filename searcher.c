@@ -1,6 +1,19 @@
 #include "searcher.h"
 
 /*
+Read from memory mapped region and add characters to corresponding value variable
+*/
+char* load_next(char* in, char* val, int len)
+{
+	for (int i = 0; i < len; i++)
+	{
+		val[i] = in[i];
+	}
+	val[len] = '\0';
+	return in + 1;
+}
+
+/*
 * Search
 * i.e buffer_len = 3; in=alphabet
 * abcdefghijkl

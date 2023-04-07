@@ -1,5 +1,10 @@
-#include "helper.h"
 #include <ncurses.h>
+#include <unistd.h>
+#include <pthread.h>
+#include <string.h>
+#include <bits/pthreadtypes.h>
+
+#include "doublylinkedlist.h"
 
 #define ART_LEN 67
 

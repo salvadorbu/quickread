@@ -19,11 +19,14 @@ void print_entry(WINDOW* win, char* base, int size, char* offset_in, int cl, int
                 cx++;
                 continue;
             }
+
             if (offset_in + offset >= offset_in && offset_in + offset < offset_in + query_len)
                 wattron(win, COLOR_PAIR(1));
             else
                 wattroff(win, COLOR_PAIR(1));
+
             char curr = *(offset_in + offset);
+
             if (curr == '\n')
             {
                 cx = 0;
@@ -45,6 +48,11 @@ void initialize_ui(char* base, DoublyLinkedList results, int size, int query_len
     start_color();
     int yMax, xMax;
     getmaxyx(stdscr, yMax, xMax);
+    
+    if (xMax < 150 || yMax < 100)
+    {
+        printf("Window sizing below minimum\n");
+    }
 
     const int text_area_width = xMax / 2 - 2;
     const int text_area_height = yMax / 2 - 2;
@@ -53,7 +61,7 @@ void initialize_ui(char* base, DoublyLinkedList results, int size, int query_len
     WINDOW* text_win = newwin(yMax / 2, xMax / 2, yMax / 4, xMax / 4);
     WINDOW* bottom_win = newwin(yMax / 4, xMax / 2, yMax - yMax / 4, xMax / 4);
 
-    mvwprintw(text_win, 1, 1, "Enter text...");
+    mvwprintw(text_win, 1, 1, "Loading...");
 
     mvwprintw(top_win, 1, 1, "________        .__        __     __________                   .___");
     mvwprintw(top_win, 2, 1, "\\_____  \\  __ __|__| ____ |  | __ \\______   \\ ____ _____     __| _/");
