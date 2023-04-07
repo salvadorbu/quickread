@@ -52,7 +52,6 @@ void initialize_ui(char* base, DoublyLinkedList results, int size, int query_len
     WINDOW* top_win = newwin(yMax / 4, xMax - ART_LEN, 0, (xMax - ART_LEN) / 2);
     WINDOW* text_win = newwin(yMax / 2, xMax / 2, yMax / 4, xMax / 4);
     WINDOW* bottom_win = newwin(yMax / 4, xMax / 2, yMax - yMax / 4, xMax / 4);
-    box(text_win, 0, 0);
 
     mvwprintw(text_win, 1, 1, "Enter text...");
 
