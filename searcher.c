@@ -70,7 +70,7 @@ void search_multithread(search_base* sb, int thread_count)
 	{
 		pthread_join(threads[i], NULL);
 	}
-	
+
 	DoublyLinkedList* joined_list = result_lists[0];
 	for (int i = 1; i < thread_count; i++)
 	{
@@ -89,6 +89,7 @@ void search_multithread(search_base* sb, int thread_count)
 		joined_list->tail->next = next_list->head;
 		next_list->head->prev = joined_list->tail;
 		joined_list->tail = next_list->tail;
+		free(next_list);
 	}
 	sb->result_list = joined_list;
 }

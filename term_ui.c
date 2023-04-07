@@ -4,11 +4,8 @@
 void print_entry(WINDOW* win, char* base, int size, char* offset_in, int cl, int rl, int query_len)
 {
     int cx = 0;
-    int offset = -50;
-    
-    init_pair(0, COLOR_WHITE, COLOR_BLACK);
-    init_pair(1, COLOR_BLACK, COLOR_WHITE);
-
+    int offset = -50; 
+    wclear(win);
     for (int row = 0; row < rl + 1; row++)
     {
         while (cx < cl)
@@ -60,7 +57,11 @@ void initialize_ui(char* base, DoublyLinkedList results, int size, int query_len
     WINDOW* top_win = newwin(yMax / 4, xMax - ART_LEN, 0, (xMax - ART_LEN) / 2);
     WINDOW* text_win = newwin(yMax / 2, xMax / 2, yMax / 4, xMax / 4);
     WINDOW* bottom_win = newwin(yMax / 4, xMax / 2, yMax - yMax / 4, xMax / 4);
-
+    
+    init_pair(0, COLOR_WHITE, COLOR_BLACK);
+    init_pair(1, COLOR_BLACK, COLOR_WHITE);
+    init_pair(2, COLOR_CYAN, COLOR_BLACK);
+    wattron(top_win, COLOR_PAIR(2));
     mvwprintw(text_win, 1, 1, "Loading...");
 
     mvwprintw(top_win, 1, 1, "________        .__        __     __________                   .___");
@@ -73,8 +74,8 @@ void initialize_ui(char* base, DoublyLinkedList results, int size, int query_len
     mvwprintw(bottom_win, 0, 1, "Quit (q)\tNext (n)\tPrevious (p)");
     wrefresh(top_win);
     wrefresh(bottom_win);
-
     Node* curr = results.head;
+    
     wrefresh(text_win);
     char ch;
     while ((ch = wgetch(top_win)))
@@ -92,6 +93,7 @@ void initialize_ui(char* base, DoublyLinkedList results, int size, int query_len
             case 'p':
                 curr = curr->prev;
                 if (curr == NULL) curr = results.tail;
+                print_entry(text_win, base, size, curr->data, text_area_width, text_area_height, query_len);
                 break;
         }
         wrefresh(text_win);

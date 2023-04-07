@@ -64,7 +64,8 @@ int main(int argc, char* argv[])
 	
 	search_multithread(base, thread_num);
 
-	//initialize_ui(buff, *(base->result_list), sb.st_size, strlen(search_term));
+	if (base->result_list->head != NULL) 
+		initialize_ui(buff, *(base->result_list), sb.st_size, strlen(search_term));
 
 	destroy_doubly_linked_list(base->result_list);
 	free(base);
