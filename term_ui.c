@@ -3,10 +3,11 @@
 
 void print_entry(WINDOW* win, char* base, int size, char* offset_in, int cl, int rl, int query_len)
 {
-    int cx = 0;
+    int cx = 1;
     int offset = -50; 
     wclear(win);
-    for (int row = 0; row < rl + 1; row++)
+    box(win, 0, 0);
+    for (int row = 1; row < rl; row++)
     {
         while (cx < cl)
         {
@@ -26,7 +27,7 @@ void print_entry(WINDOW* win, char* base, int size, char* offset_in, int cl, int
 
             if (curr == '\n')
             {
-                cx = 0;
+                cx = 1;
                 row++;
             }
             mvwprintw(win, row, cx, "%c", curr);
@@ -46,15 +47,17 @@ void initialize_ui(char* base, DoublyLinkedList results, int size, int query_len
     int yMax, xMax;
     getmaxyx(stdscr, yMax, xMax);
     
-    if (xMax < 150 || yMax < 100)
+    if (xMax < 75 || yMax < 35)
     {
         printf("Window sizing below minimum\n");
+        endwin();
+        return;
     }
 
     const int text_area_width = xMax / 2 - 2;
     const int text_area_height = yMax / 2 - 2;
 
-    WINDOW* top_win = newwin(yMax / 4, xMax - ART_LEN, 0, (xMax - ART_LEN) / 2);
+    WINDOW* top_win = newwin(yMax / 4, ART_LEN + 2, 0, (xMax - ART_LEN) / 2 - 2);
     WINDOW* text_win = newwin(yMax / 2, xMax / 2, yMax / 4, xMax / 4);
     WINDOW* bottom_win = newwin(yMax / 4, xMax / 2, yMax - yMax / 4, xMax / 4);
     
@@ -70,14 +73,19 @@ void initialize_ui(char* base, DoublyLinkedList results, int size, int query_len
     mvwprintw(top_win, 4, 1, "/   \\_/.  \\  |  /  \\  \\___|    <   |    |   \\  ___/ / __ \\_/ /_/ | ");
     mvwprintw(top_win, 5, 1, "\\_____\\ \\_/____/|__|\\___  >__|_ \\  |____|_  /\\___  >____  /\\____ | ");
     mvwprintw(top_win, 6, 1, "       \\__>             \\/     \\/         \\/     \\/     \\/      \\/ ");
-    
-    mvwprintw(bottom_win, 0, 1, "Quit (q)\tNext (n)\tPrevious (p)");
+
+    box(bottom_win, 0, 0);
+    box(top_win, 0, 0);
+    box(text_win, 0, 0);
+    mvwprintw(bottom_win, 1, 1, "Quit (q)\tNext (n)\tPrevious (p)");
+
     wrefresh(top_win);
     wrefresh(bottom_win);
-    Node* curr = results.head;
-    
     wrefresh(text_win);
+
+    Node* curr = results.head;
     char ch;
+
     while ((ch = wgetch(top_win)))
     {
         switch (ch)
