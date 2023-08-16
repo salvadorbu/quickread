@@ -15,7 +15,7 @@ Clone the repo
 git clone https://github.com/salvadorbu/quickread.git
 ```
 
-Run make file
+Run make file (requires ncurses)
 
 ```
 make
