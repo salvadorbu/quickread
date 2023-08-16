@@ -1,20 +1,6 @@
 #include "term_ui.h"
 #include <curses.h>
 
-int results_length(DoublyLinkedList dll)
-{
-	Node* temp = dll.head;
-	int len_count = 0;
-
-	while (temp != NULL)
-	{
-		len_count++;
-		temp = temp->next;
-	}
-
-	return len_count;
-}
-
 void print_entry(WINDOW* win, char* base, int size, char* offset_in, int column_length, int row_length, int query_len)
 {
     int cx = 2;
@@ -66,7 +52,7 @@ void initialize_ui(char* base, DoublyLinkedList results, int size, int query_len
         return;
     }
 
-    int results_count = results_length(results); 
+    int results_count = results.length; 
 
     const int text_area_width = xMax / 2 - 2;
     const int text_area_height = yMax / 2 - 2;

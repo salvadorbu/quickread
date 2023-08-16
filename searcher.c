@@ -26,14 +26,17 @@ void* search(void* base)
 	search_base* sb = base;
 	int len = strlen((*sb).target);
 	char curr[len + 1];
+
 	for (int i = 0; i < (*sb).buffer; i++)
 	{
 		(*sb).in = load_next((*sb).in, curr, len);
+
 		if (strcmp(curr, (*sb).target) == 0)
 		{
 			push_back(sb->result_list, sb->in - 1);
 		}
 	}
+
 	free(base);
 	pthread_exit(NULL);
 }
@@ -65,10 +68,13 @@ void search_multithread(search_base* sb, int thread_count)
 			exit(EXIT_FAILURE);
 		}
 	}
+
+	int total_length = 0;
 	
 	for (int i = 0; i < thread_count; i++)
 	{
 		pthread_join(threads[i], NULL);
+		total_length += result_lists[i]->length;
 	}
 
 	DoublyLinkedList* joined_list = result_lists[0];
@@ -86,11 +92,15 @@ void search_multithread(search_base* sb, int thread_count)
 			destroy_doubly_linked_list(next_list);
 			continue;
 		}
+
 		joined_list->tail->next = next_list->head;
 		next_list->head->prev = joined_list->tail;
 		joined_list->tail = next_list->tail;
+
 		free(next_list);
 	}
+
+	joined_list->length = total_length;
 	sb->result_list = joined_list;
 }
 

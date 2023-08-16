@@ -13,6 +13,7 @@ typedef struct Node {
 typedef struct DoublyLinkedList {
     Node* head;
     Node* tail;
+    int length;
 } DoublyLinkedList;
 
 DoublyLinkedList* create_doubly_linked_list();
