@@ -1,6 +1,76 @@
 #include "term_ui.h"
 #include <curses.h>
 
+void update_win_offset(char character, int* row_offset, int* column_offset, int column_length)
+{
+    switch (character)
+    {
+        case '\n':
+            ++*(row_offset);
+            *column_offset = 1;
+            break;
+        case '\t':
+            *(column_offset) += 4;
+            break;
+        default:
+            ++*(column_offset);
+            break;
+    }
+
+    if (*column_offset >= column_length)
+    {
+        *column_offset = (*column_offset) % column_length + 1;
+        ++*(row_offset);
+    }
+}
+
+char* get_starting_pointer(char* base, char* match_offset, int row_length, int column_length)
+{
+    int rows_used = 1;
+    int current_column = column_length / 2;
+
+    while (rows_used < row_length / 2 && match_offset >= base)
+    {
+        match_offset--;
+        update_win_offset(*match_offset, &rows_used, &current_column, column_length);
+    }
+    
+    int leading_limit = 0;
+
+    while (*match_offset != '\n' && match_offset >= base && leading_limit < column_length / 2)
+    {
+        match_offset--;
+        leading_limit++;
+    }
+
+    return match_offset + 1;
+}
+
+
+void print_entry(WINDOW* win, char* base, int size, char* offset_in, int column_length, int row_length, int query_len)
+{
+    wclear(win);
+    box(win, 0, 0);
+
+    int column = 1;
+    int row = 1;
+
+    char* start = get_starting_pointer(base, offset_in, row_length, column_length);
+
+    while (row < row_length && start <= base + size)
+    {
+        if (start >= offset_in && start < offset_in + query_len)
+            wattron(win, COLOR_PAIR(1));
+        else
+            wattroff(win, COLOR_PAIR(1));
+        
+        if (*start != '\n' && *start != '\t') mvwprintw(win, row, column, "%c", *start);
+
+        update_win_offset(*start, &row, &column, column_length);
+        start++;
+    }
+}
+/*
 void print_entry(WINDOW* win, char* base, int size, char* offset_in, int column_length, int row_length, int query_len)
 {
     int cx = 2;
@@ -34,7 +104,7 @@ void print_entry(WINDOW* win, char* base, int size, char* offset_in, int column_
         cx = 1;
     }
 }
-
+*/
 void initialize_ui(char* base, DoublyLinkedList results, int size, int query_len)
 {
     initscr();

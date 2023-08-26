@@ -11,7 +11,7 @@
 #define THREAD_FLAG "-t"
 
 /*
-Command Ussage:
+Command Usage:
 ./editor -f <file.ext> -s <search term> -t <thread count>
 */
 int main(int argc, char* argv[])
