@@ -1,6 +1,9 @@
 #include "term_ui.h"
 #include <curses.h>
 
+/*
+Update the row and column positions after processing a character
+*/
 void update_win_offset(char character, int* row_offset, int* column_offset, int column_length)
 {
     switch (character)
@@ -24,6 +27,9 @@ void update_win_offset(char character, int* row_offset, int* column_offset, int 
     }
 }
 
+/*
+Get the starting character pointer for the text displayed
+*/
 char* get_starting_pointer(char* base, char* match_offset, int row_length, int column_length)
 {
     int rows_used = 1;
@@ -46,7 +52,9 @@ char* get_starting_pointer(char* base, char* match_offset, int row_length, int c
     return match_offset + 1;
 }
 
-
+/*
+Display word match result onto the terminal UI 
+*/
 void print_entry(WINDOW* win, char* base, int size, char* offset_in, int column_length, int row_length, int query_len)
 {
     wclear(win);
@@ -57,7 +65,7 @@ void print_entry(WINDOW* win, char* base, int size, char* offset_in, int column_
 
     char* start = get_starting_pointer(base, offset_in, row_length, column_length);
 
-    while (row < row_length && start <= base + size)
+    while (row <= row_length && start <= base + size)
     {
         if (start >= offset_in && start < offset_in + query_len)
             wattron(win, COLOR_PAIR(1));
@@ -70,40 +78,9 @@ void print_entry(WINDOW* win, char* base, int size, char* offset_in, int column_
         start++;
     }
 }
+
 /*
-void print_entry(WINDOW* win, char* base, int size, char* offset_in, int column_length, int row_length, int query_len)
-{
-    int cx = 2;
-    int offset = -50;
-    wclear(win);
-    box(win, 0, 0);
-
-    for (int row = 1; row < row_length; row++)
-    {
-        while (cx < column_length && row < row_length)
-        {
-            if (offset_in + offset >= base + size) break;
-
-            if (offset_in + offset >= offset_in && offset_in + offset < offset_in + query_len)
-                wattron(win, COLOR_PAIR(1));
-            else
-                wattroff(win, COLOR_PAIR(1));
-
-            char curr = *(offset_in + offset);
-
-            if (curr == '\n')
-            {
-                cx = 1;
-                row++;
-            } else {
-		mvwprintw(win, row, cx, "%c", curr);
-	    }
-            offset++;
-            cx++;
-        }
-        cx = 1;
-    }
-}
+Setup the terminal UI
 */
 void initialize_ui(char* base, DoublyLinkedList results, int size, int query_len)
 {

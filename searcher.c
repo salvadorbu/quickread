@@ -14,12 +14,7 @@ char* load_next(char* in, char* val, int len)
 }
 
 /*
-* Search
-* i.e buffer_len = 3; in=alphabet
-* abcdefghijkl
-* abc
-* bcd
-* cde
+Search file for term match from the starting pointer and add matches to results linked list 
 */
 void* search(void* base)
 {
@@ -41,6 +36,9 @@ void* search(void* base)
 	pthread_exit(NULL);
 }
 
+/*
+Perform search with multiple threads
+*/
 void search_multithread(search_base* sb, int thread_count)
 {
 	int buffer_length = (sb->buffer / thread_count);
