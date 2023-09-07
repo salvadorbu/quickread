@@ -129,7 +129,7 @@ void initialize_ui(char* base, DoublyLinkedList results, int size, int query_len
     int result_index = 0;
     
     print_entry(text_win, base, size, curr->data, text_area_width, text_area_height, query_len);
-    mvwprintw(bottom_win, 1, 1, "Quit (q)  Next (n)  Previous (p)\t\tResult (%d / %d)",
+    mvwprintw(bottom_win, 1, 1, "Quit (q)  Next (n)  Previous (p)\tResult (%d / %d)",
 		    result_index % results_count + 1, results_count);
 
     wrefresh(top_win);
@@ -160,8 +160,9 @@ void initialize_ui(char* base, DoublyLinkedList results, int size, int query_len
                 print_entry(text_win, base, size, curr->data, text_area_width, text_area_height, query_len);
                 break;
         }
-
-	mvwprintw(bottom_win, 1, 1, "Quit (q)  Next (n)  Previous (p)\t\tResult (%d / %d)", 
+    wclear(bottom_win);
+    box(bottom_win, 0, 0);
+	mvwprintw(bottom_win, 1, 1, "Quit (q)  Next (n)  Previous (p)\tResult (%d / %d)", 
 			result_index % results_count + 1, results_count);
 
         wrefresh(text_win);
