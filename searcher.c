@@ -28,11 +28,14 @@ void search_multithread(search_base* sb, int thread_count)
 	pthread_t threads[thread_count];
 	DoublyLinkedList* result_lists[thread_count];
 	
+    // Create result list for each thread used
 	for (int i = 0; i < thread_count; i++)
 	{
 		result_lists[i] = create_doubly_linked_list();
 	}
 
+    // Create search base for each thread with
+    // "in" offsets (search starting points) evenly spread across mmap pointer
 	for (int i = 0; i < thread_count; i++)
 	{
 		int offset = buffer_length * i;
@@ -43,6 +46,7 @@ void search_multithread(search_base* sb, int thread_count)
 		newbase->target = sb->target;
         newbase->target_length = sb->target_length;
 		newbase->result_list = result_lists[i];
+
 		int rc = pthread_create(&threads[i], NULL, search, newbase);
 		if (rc)
 		{
@@ -53,12 +57,14 @@ void search_multithread(search_base* sb, int thread_count)
 
 	int total_length = 0;
 	
+    // terminate all threads and add results count to total
 	for (int i = 0; i < thread_count; i++)
 	{
 		pthread_join(threads[i], NULL);
 		total_length += result_lists[i]->length;
 	}
 
+    // combine the linked lists for each thread into one
 	DoublyLinkedList* joined_list = result_lists[0];
 	for (int i = 1; i < thread_count; i++)
 	{

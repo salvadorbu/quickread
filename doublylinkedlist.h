@@ -21,4 +21,3 @@ void destroy_doubly_linked_list(DoublyLinkedList* list);
 
 void push_back(DoublyLinkedList* list, char* data);
 
-void print_list(DoublyLinkedList* list);

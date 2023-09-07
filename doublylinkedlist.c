@@ -55,15 +55,3 @@ void push_back(DoublyLinkedList* list, char* data) {
     if (list->head == NULL) list->head = node;
 }
 
-/*
-Print pointer addresses (logging purposes)
-*/
-void print_list(DoublyLinkedList* list) {
-    printf("[ ");
-    Node* current = list->head;
-    while (current != NULL) {
-        printf("%p\n", current->data);
-        current = current->next;
-    }
-    printf("]\n");
-}
