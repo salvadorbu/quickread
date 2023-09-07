@@ -60,8 +60,8 @@ int main(int argc, char* argv[])
 	search_base* base = malloc(sizeof(search_base));
 	base->in = buff;
 	base->target = search_term;
-	base->buffer = sb.st_size;
-	
+    base->target_length = strlen(search_term);
+	base->buffer = sb.st_size;	
 
 	search_multithread(base, thread_num);
 

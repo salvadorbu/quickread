@@ -1,35 +1,18 @@
 #include "searcher.h"
 
 /*
-Read from memory mapped region and add characters to corresponding value variable
-*/
-char* load_next(char* in, char* val, int len)
-{
-	for (int i = 0; i < len; i++)
-	{
-		val[i] = in[i];
-	}
-	val[len] = '\0';
-	return in + 1;
-}
-
-/*
 Search file for term match from the starting pointer and add matches to results linked list 
 */
 void* search(void* base)
 {
 	search_base* sb = base;
-	int len = strlen((*sb).target);
-	char curr[len + 1];
-
-	for (int i = 0; i < (*sb).buffer; i++)
+    
+	for (int offset = 0; offset < sb->buffer; offset++)
 	{
-		(*sb).in = load_next((*sb).in, curr, len);
-
-		if (strcmp(curr, (*sb).target) == 0)
-		{
-			push_back(sb->result_list, sb->in - 1);
-		}
+        if (memcmp(sb->in + offset, sb->target, sb->target_length) == 0)
+        {
+            push_back(sb->result_list, sb->in + offset);
+        }
 	}
 
 	free(base);
@@ -58,6 +41,7 @@ void search_multithread(search_base* sb, int thread_count)
 		newbase->buffer = buffer_length;
 		newbase->in = sb->in + offset;
 		newbase->target = sb->target;
+        newbase->target_length = sb->target_length;
 		newbase->result_list = result_lists[i];
 		int rc = pthread_create(&threads[i], NULL, search, newbase);
 		if (rc)
