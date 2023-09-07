@@ -1,5 +1,5 @@
 #include "term_ui.h"
-#include <curses.h>
+#include <ncurses.h>
 
 /*
 Update the row and column positions after processing a character

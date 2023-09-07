@@ -3,7 +3,7 @@ CFLAGS = -std=c11 -Wall -Wextra -c
 all: quickread
 
 quickread: main.o searcher.o searcher.h term_ui.o term_ui.h doublylinkedlist.o doublylinkedlist.h
-	gcc -lncurses -o quickread main.o searcher.o term_ui.o doublylinkedlist.o 
+	gcc -o quickread main.o searcher.o term_ui.o doublylinkedlist.o -lncurses -pthread 
 
 main.o: main.c searcher.h term_ui.h doublylinkedlist.h
 	gcc ${CFLAGS} main.c
