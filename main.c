@@ -24,7 +24,7 @@ int main(int argc, char* argv[])
 
 	char* file_name = NULL;
 	char* search_term = NULL;
-	int thread_num = 25;
+	int threads = 25;
 
 	for (int argi = 1; argi < argc; argi += 2)
 	{
@@ -33,7 +33,7 @@ int main(int argc, char* argv[])
 		else if (strcmp(argv[argi], SEARCH_FLAG) == 0)
 			search_term = argv[argi + 1];
 		else if (strcmp(argv[argi], THREAD_FLAG) == 0)
-			thread_num = atoi(argv[argi + 1]);
+			threads = atoi(argv[argi + 1]);
 		else {
 			printf("Incorrect flag usage [Required Flags: -f, -s] \n");
 			exit(EXIT_FAILURE);
@@ -59,11 +59,11 @@ int main(int argc, char* argv[])
 	
 	search_base* base = malloc(sizeof(search_base));
 	base->in = buff;
-	base->target = search_term;
-    base->target_length = strlen(search_term);
+	base->pattern = search_term;
+    base->pattern_length = strlen(search_term);
 	base->buffer = sb.st_size;	
 
-	search_multithread(base, thread_num);
+	search_multithread(base, threads);
 
 	if (base->result_list->head != NULL) 
 		initialize_ui(buff, *(base->result_list), sb.st_size, strlen(search_term));

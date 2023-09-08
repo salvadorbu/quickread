@@ -1,6 +1,6 @@
 /*
-*Simple double linked list to manage search results
-*/ 
+ * Simple doubly linked list implementation to store pattern offsets
+ */
 #include <stdio.h>
 #include <stdlib.h>
 

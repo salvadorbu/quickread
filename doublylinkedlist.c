@@ -1,8 +1,8 @@
 #include "doublylinkedlist.h"
 
 /*
-Create new linked list
-*/
+ * Create new linked list
+ */
 DoublyLinkedList* create_doubly_linked_list() {
     DoublyLinkedList* list = malloc(sizeof(DoublyLinkedList));
 
@@ -19,8 +19,8 @@ DoublyLinkedList* create_doubly_linked_list() {
 }
 
 /*
-Free linked list
-*/
+ * Free linked list
+ */
 void destroy_doubly_linked_list(DoublyLinkedList* list) {
     Node* current = list->head;
 
@@ -34,8 +34,8 @@ void destroy_doubly_linked_list(DoublyLinkedList* list) {
 }
 
 /*
-Append item to linked list
-*/
+ * Append item to linked list
+ */
 void push_back(DoublyLinkedList* list, char* data) {
     Node* node = malloc(sizeof(Node));
     list->length = list->length + 1;

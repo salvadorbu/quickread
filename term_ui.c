@@ -2,8 +2,8 @@
 #include <ncurses.h>
 
 /*
-Update the row and column positions after processing a character
-*/
+ * Update the row and column offsets after processing character
+ */
 void update_win_offset(char character, int* row_offset, int* column_offset, int column_length)
 {
     switch (character)
@@ -28,8 +28,8 @@ void update_win_offset(char character, int* row_offset, int* column_offset, int 
 }
 
 /*
-Get the starting character pointer for the text displayed
-*/
+ * Get the starting pointer for the display text 
+ */
 char* get_starting_pointer(char* base, char* match_offset, int row_length, int column_length)
 {
     int rows_used = 1;
@@ -53,8 +53,8 @@ char* get_starting_pointer(char* base, char* match_offset, int row_length, int c
 }
 
 /*
-Display word match result onto the terminal UI 
-*/
+ * Display the search result at the offset onto the UI 
+ */
 void print_entry(WINDOW* win, char* base, int size, char* offset_in, int column_length, int row_length, int query_len)
 {
     wclear(win);
@@ -80,8 +80,8 @@ void print_entry(WINDOW* win, char* base, int size, char* offset_in, int column_
 }
 
 /*
-Setup the terminal UI
-*/
+ * Setup the terminal UI 
+ */
 void initialize_ui(char* base, DoublyLinkedList results, int size, int query_len)
 {
     initscr();
@@ -92,7 +92,7 @@ void initialize_ui(char* base, DoublyLinkedList results, int size, int query_len
     int yMax, xMax;
     getmaxyx(stdscr, yMax, xMax);
 
-    if (xMax < 75 || yMax < 35)
+    if (xMax < 40 || yMax < 20)
     {
         printf("Window sizing below minimum\n");
         endwin();
