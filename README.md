@@ -3,7 +3,7 @@ Memory efficient multithreaded searcher for large single-byte encoded files (i.e
 Multiple threads search through a memory mapped (mmap) pointer such that the entire file is never loaded into memory. Boyer-Moore algorithm is used for the string search.
 Users on 32-bit machines may run into issues with larger files since program is limited by the address space.
 
-Here is an example with a 15GB file:
+Here is an example with a 15GB file (COVID-19 vector embeddings):
 
 https://github.com/salvadorbu/quickread/assets/89661726/a26becf9-eb11-445e-8d10-00a195a54418
 
