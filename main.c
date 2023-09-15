@@ -54,6 +54,12 @@ int main(int argc, char* argv[])
 		perror("Couldn't find file size\n");
 		exit(EXIT_FAILURE);
 	}
+
+    if (sb.st_size < 1000)
+    {
+        printf("Minimum file size is 1kb\n");
+        exit(EXIT_FAILURE);
+    }
 	
 	char* buff = mmap(NULL, sb.st_size, PROT_READ, MAP_PRIVATE, fd, 0);
 	
@@ -64,7 +70,6 @@ int main(int argc, char* argv[])
 	base->buffer = sb.st_size;	
 
 	search_multithread(base, threads);
-
 	if (base->result_list->head != NULL) 
 		initialize_ui(buff, *(base->result_list), sb.st_size, strlen(search_term));
 	

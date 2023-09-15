@@ -27,7 +27,7 @@ void process_pattern(void* base)
 void* search(void* base)
 {
     search_base* sb = base;
-    int offset = 0;
+    uint64_t offset = 0;
 
     while (offset <= (sb->buffer - sb->pattern_length))
     {
@@ -67,7 +67,7 @@ void* search(void* base)
  */
 void search_multithread(search_base* sb, int thread_count)
 {
-	int buffer_length = (sb->buffer / thread_count);
+	uint64_t buffer_length = (sb->buffer / thread_count);
 	pthread_t threads[thread_count];
 	DoublyLinkedList* result_lists[thread_count];
 
@@ -83,7 +83,7 @@ void search_multithread(search_base* sb, int thread_count)
     // "in" offsets (search starting points) evenly spread across mmap pointer
 	for (int i = 0; i < thread_count; i++)
 	{
-		int offset = buffer_length * i;
+		uint64_t offset = buffer_length * i;
 
 		search_base* newbase = malloc(sizeof(search_base));
 		newbase->buffer = buffer_length;

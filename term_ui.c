@@ -40,14 +40,14 @@ char* get_starting_pointer(char* base, char* match_offset, int row_length, int c
         match_offset--;
         update_win_offset(*match_offset, &rows_used, &current_column, column_length);
     }
-    
+    /* 
     int leading_limit = 0;
 
     while (*match_offset != '\n' && match_offset >= base && leading_limit < column_length / 2)
     {
         match_offset--;
         leading_limit++;
-    }
+    }*/
 
     return match_offset + 1;
 }
@@ -55,7 +55,7 @@ char* get_starting_pointer(char* base, char* match_offset, int row_length, int c
 /*
  * Display the search result at the offset onto the UI 
  */
-void print_entry(WINDOW* win, char* base, int size, char* offset_in, int column_length, int row_length, int query_len)
+void print_entry(WINDOW* win, char* base, uint64_t size, char* offset_in, int column_length, int row_length, int query_len)
 {
     wclear(win);
     box(win, 0, 0);
@@ -82,7 +82,7 @@ void print_entry(WINDOW* win, char* base, int size, char* offset_in, int column_
 /*
  * Setup the terminal UI 
  */
-void initialize_ui(char* base, DoublyLinkedList results, int size, int query_len)
+void initialize_ui(char* base, DoublyLinkedList results, uint64_t size, int query_len)
 {
     initscr();
     noecho();

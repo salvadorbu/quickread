@@ -5,7 +5,7 @@ typedef struct search_base
     char* in;
     char* pattern;
     int pattern_length;
-    int buffer;
+    uint64_t buffer;
     int* bmh_table;
     DoublyLinkedList* result_list;
 } search_base;
