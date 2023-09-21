@@ -7,7 +7,7 @@ Here is an example with a 15GB file (COVID-19 vector embeddings):
 
 https://github.com/salvadorbu/quickread/assets/89661726/a26becf9-eb11-445e-8d10-00a195a54418
 
-Under optimal conditions 15GB file search should take <4 seconds. Files under 5GB should search almost instantly.
+Under optimal conditions 15GB file search should take <4 seconds. Files under 5GB should search almost instantly. Note that this is highly dependent on disk read speeds.
 
 # Usage
 ```console
