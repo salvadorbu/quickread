@@ -11,7 +11,6 @@ typedef struct search_base
 } search_base;
 
 
-
 void* search(void* base);
 
 void search_multithread(search_base* sb, int threads);

@@ -40,14 +40,6 @@ char* get_starting_pointer(char* base, char* match_offset, int row_length, int c
         match_offset--;
         update_win_offset(*match_offset, &rows_used, &current_column, column_length);
     }
-    /* 
-    int leading_limit = 0;
-
-    while (*match_offset != '\n' && match_offset >= base && leading_limit < column_length / 2)
-    {
-        match_offset--;
-        leading_limit++;
-    }*/
 
     return match_offset + 1;
 }

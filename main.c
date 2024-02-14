@@ -10,6 +10,8 @@
 #define SEARCH_FLAG "-s"
 #define THREAD_FLAG "-t"
 
+#define MINIMUM_FILE_SIZE 1000
+
 /*
 Command Usage:
 ./editor -f <file.ext> -s <search term> -t <thread count>
@@ -55,7 +57,7 @@ int main(int argc, char* argv[])
 		exit(EXIT_FAILURE);
 	}
 
-    if (sb.st_size < 1000)
+    if (sb.st_size < MINIMUM_FILE_SIZE)
     {
         printf("Minimum file size is 1kb\n");
         exit(EXIT_FAILURE);
